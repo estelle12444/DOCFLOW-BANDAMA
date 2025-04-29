@@ -1,33 +1,30 @@
-# Dockerfile pour Laravel sur Render
 FROM php:8.2-apache
 
-# Installer les dépendances système
+WORKDIR /var/www/html
+
+# Install dependencies
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    libpq-dev
+    libpng-dev libonig-dev libxml2-dev zip unzip libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql mbstring gd
 
-# Installer les extensions PHP nécessaires
-RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
 
-# Installer Composer
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+COPY package.json package-lock.json ./
+RUN npm install && npm run build
+
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copier les fichiers de l'application
-COPY . /var/www/html
+# Copy files
+COPY . .
 
-# Configurer Apache
-RUN chown -R www-data:www-data /var/www/html/storage
-RUN a2enmod rewrite
+# Permissions
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-# Installer les dépendances
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Exposer le port
 EXPOSE 10000
-
-# Commande de démarrage
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]

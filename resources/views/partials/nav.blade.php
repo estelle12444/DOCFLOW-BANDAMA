@@ -22,7 +22,11 @@
                         <i class="fas fa-user"></i> {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('logout') }}">Déconnexion</a></li>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                            <li><a class="dropdown-item" >Déconnexion</a></li>
+                    </form>
                     </ul>
                 </li>
             </ul>

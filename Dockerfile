@@ -26,8 +26,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock package.json package-lock.json ./
 
 
-RUN composer install --no-dev --no-interaction --optimize-autoloader \
-    && npm install --force \
+RUN composer install \
+    && npm install \
     && npm run build
 # Copy files
 COPY . .

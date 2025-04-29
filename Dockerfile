@@ -1,8 +1,10 @@
-FROM php:8.2
+FROM php:8.2-apache
 
-WORKDIR /app
+# 1. Configuration de base
+WORKDIR /var/www/html
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Install dependencies
+# 2. Installation des dépendances système
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -14,29 +16,36 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
 
+# 3. Installation de Node.js 20.x (LTS actuelle)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs 
-
-
-
-# Install Composer
+# 4. Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# 5. Copie des fichiers de dépendances
 COPY composer.json composer.lock package.json package-lock.json ./
 
-RUN adduser --disabled-password --gecos '' deployer \
-    && chown -R deployer:deployer /app \
-    && su - deployer -c "composer install --no-interaction --optimize-autoloader" \
-    && npm install \
-    && npm run build
-# Copy files
+# 6. Installation des dépendances PHP
+RUN composer install --no-interaction --optimize-autoloader --ignore-platform-reqs
+
+# 7. Installation des dépendances Node.js
+RUN npm install --force --legacy-peer-deps
+
+# 8. Build des assets
+RUN npm run build
+
+# 9. Copie du reste de l'application
 COPY . .
 
-# Permissions
+# 10. Configuration des permissions
 RUN chown -R www-data:www-data storage bootstrap/cache public/build \
     && chmod -R 775 storage bootstrap/cache \
     && a2enmod rewrite
+
+# 11. Nettoyage
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 10000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]

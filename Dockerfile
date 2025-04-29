@@ -28,6 +28,9 @@ RUN chown -R www-data:www-data /var/www/html/storage \
 # Étape 7 : Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader
 
+RUN npm install 
+RUN npm run build
+
 # Étape 8 : Port d'exposition (obligatoire pour Render)
 EXPOSE 10000
 

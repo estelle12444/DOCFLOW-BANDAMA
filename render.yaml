@@ -1,11 +1,14 @@
 services:
   - type: web
-    name: laravel-app
-    env: docker
-    dockerfilePath: ./Dockerfile
+    name: docflow
+    runtime: php
+    buildCommand: "./render-build.sh"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=10000"
     envVars:
       - key: APP_ENV
         value: production
+      - key: APP_KEY
+        fromValue: base64:rkeuY9akqJKJJY6WU+VNjreNTqG8zXMPiT9o8Pzpe0Y=
       - key: APP_DEBUG
         value: false
       - key: DB_CONNECTION
@@ -20,5 +23,3 @@ services:
         value: pascal
       - key: DB_PASSWORD
         value: BbQx1J051Q9pd9QaY3DhE9nu910FMqMK
-      - key: LOG_CHANNEL
-        value: stderr

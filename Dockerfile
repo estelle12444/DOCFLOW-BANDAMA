@@ -1,6 +1,6 @@
-FROM php:8.2-apache
+FROM php:8.2
 
-WORKDIR /var/www/html
+WORKDIR /app
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -25,10 +25,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock package.json package-lock.json ./
 
-
-RUN composer install 
-RUN  npm install 
-RUN  npm run build
+RUN adduser --disabled-password --gecos '' deployer \
+    && chown -R deployer:deployer /app \
+    && su - deployer -c "composer install --no-interaction --optimize-autoloader" \
+    && npm install \
+    && npm run build
 # Copy files
 COPY . .
 
@@ -36,9 +37,6 @@ COPY . .
 RUN chown -R www-data:www-data storage bootstrap/cache public/build \
     && chmod -R 775 storage bootstrap/cache \
     && a2enmod rewrite
-
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 10000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]

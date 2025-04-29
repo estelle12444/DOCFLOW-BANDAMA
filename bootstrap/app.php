@@ -11,9 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        if (app()->environment('production')) {
-            URL::forceScheme('https');
-        }
+       
         
     })
     ->withExceptions(function (Exceptions $exceptions) {

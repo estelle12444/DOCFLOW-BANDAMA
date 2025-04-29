@@ -22,7 +22,7 @@
                         <i class="fas fa-user"></i> {{ Auth::user()->name }}
                     </a>
                     
-                    <form id="logout-form" action="//docflow-ll2w.onrender.com/logout" method="POST">
+                    <form id="logout-form" action="/logout" method="POST">
                         @csrf
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" >Déconnexion</a></li>

@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: laravel-app
+    env: php
+    buildCommand: |
+      composer install --no-dev
+      php artisan key:generate
+      php artisan migrate --force
+    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d08b0c95pdvs739kvtvg-a.frankfurt-postgres.render.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: docflow_db_gtkn
+      - key: DB_USERNAME
+        value: pascal
+      - key: DB_PASSWORD
+        value: BbQx1J051Q9pd9QaY3DhE9nu910FMqMK

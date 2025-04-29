@@ -25,7 +25,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # 5. Copie des fichiers de dépendances
-COPY composer.json composer.lock package.json package-lock.json ./
+COPY composer.json  package.json package-lock.json ./
 
 # 6. Installation des dépendances PHP
 RUN composer install --no-interaction --optimize-autoloader --ignore-platform-reqs

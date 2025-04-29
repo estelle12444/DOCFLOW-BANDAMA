@@ -21,13 +21,13 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i> {{ Auth::user()->name }}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
-                            <li><a class="dropdown-item" >Déconnexion</a></li>
-                    </form>
-                    </ul>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" >Déconnexion</a></li>
+                        </ul>
+                     </form>
                 </li>
             </ul>
         </div>

@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs 
 
+RUN php artisan storage:link && \
+    chown -R www-data:www-data storage/app/public
 # Étape 4 : Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

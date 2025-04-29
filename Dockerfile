@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y \
 # Étape 4 : Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+COPY composer.json composer.lock package.json package-lock.json 
+
 # Étape 5 : Copier les fichiers (sauf ceux dans .dockerignore)
 COPY . .
 

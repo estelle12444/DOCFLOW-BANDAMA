@@ -36,12 +36,7 @@ RUN npm install
 RUN npm run build
 
 
-RUN cp .env.example .env \
-    && php artisan key:generate \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache \
-    && php artisan storage:link
+RUN php artisan storage:link
 
 # Étape 8 : Port d'exposition (obligatoire pour Render)
 EXPOSE 10000

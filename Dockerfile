@@ -26,8 +26,7 @@ COPY . .
 
 # Étape 6 : Configurer les permissions
 RUN chown -R www-data:www-data /var/www/html/storage \
-    && chmod -R 775 /var/www/html/storage \
-    && php artisan storage:link
+    && chmod -R 775 /var/www/html/storage 
     
 
 # Étape 7 : Installer les dépendances PHP
@@ -35,6 +34,14 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install 
 RUN npm run build
+
+
+RUN cp .env.example .env \
+    && php artisan key:generate \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache \
+    && php artisan storage:link
 
 # Étape 8 : Port d'exposition (obligatoire pour Render)
 EXPOSE 10000

@@ -26,7 +26,7 @@ COPY . .
 
 # Étape 6 : Configurer les permissions
 #RUN chown -R www-data:www-data /var/www/html/storage \
-    && chmod -R 775 /var/www/html/storage  /var/www/html/bootstrap/cache
+   # && chmod -R 775 /var/www/html/storage  /var/www/html/bootstrap/cache
     
 
 # Étape 7 : Installer les dépendances PHP

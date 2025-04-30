@@ -16,8 +16,6 @@ RUN apt-get update && apt-get install -y \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs 
 
-RUN php artisan storage:link 
-RUN  chown -R www-data:www-data storage/app/public
 # Étape 4 : Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -29,7 +27,8 @@ COPY . .
 # Étape 6 : Configurer les permissions
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 775 /var/www/html/storage \
-    && a2enmod rewrite
+    && php artisan storage:link
+    
 
 # Étape 7 : Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader

@@ -26,7 +26,7 @@ COPY . .
 
 # Étape 6 : Configurer les permissions
 RUN chown -R www-data:www-data /var/www/html/storage \
-    && chmod -R 775 /var/www/html/storage 
+    && chmod -R 775 /var/www/html/storage  /var/www/html/bootstrap/cache
     
 
 # Étape 7 : Installer les dépendances PHP
@@ -39,7 +39,10 @@ RUN npm run build
 RUN php artisan storage:link
 
 # Étape 8 : Port d'exposition (obligatoire pour Render)
-EXPOSE 10000
-
+#    EXPOSE 10000
+EXPOSE 80
 # Étape 9 : Commande de démarrage
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+#CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+
+CMD ["apache2-foreground"]
+

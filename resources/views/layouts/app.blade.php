@@ -1,5 +1,68 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<style>
+    body {
+        background-color: #f8fafc; /* Couleur de fond claire */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .navbar {
+        background-color: #00c0ef; /* Bandeau bleu */
+        color: white;
+        padding: 10px 20px;
+    }
+    
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 40px;
+    }
+    
+    .card-header {
+        background-color: #f1f1f1;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .btn-info {
+        background-color: #00c0ef;
+        border-color: #00c0ef;
+        padding: 8px 20px;
+        border-radius: 5px;
+    }
+    
+    .btn-info:hover {
+        background-color: #00a5cc;
+        border-color: #00a5cc;
+    }
+    
+    .btn-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .btn-link:hover {
+        text-decoration: underline;
+    }
+    
+    .form-control {
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+    
+    .form-check-label {
+        font-size: 0.9rem;
+    }
+
+</style>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,6 +80,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+  
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-info shadow-sm ">
             <div class="container ">

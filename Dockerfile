@@ -33,9 +33,9 @@ RUN chown -R www-data:www-data /var/www/html/storage \
 RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install 
-# RUN npm run build
+RUN npm run build
 
-RUN npm run dev
+#RUN npm run dev
 
 
 RUN php artisan storage:link
